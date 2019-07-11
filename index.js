@@ -85,24 +85,71 @@ controller.on('bot_channel_join', function (bot, message) {
     bot.reply(message, "I'm here!")
 });
 
-controller.hears('hello', 'direct_message', function (bot, message) {
-    bot.reply(message, 'Hello!');
-});
-
-
 /**
  * AN example of what could be:
  * Any un-handled direct mention gets a reaction and a pat response!
  */
-//controller.on('direct_message,mention,direct_mention', function (bot, message) {
+// controller.on('mention', function (bot, message) {
 //    bot.api.reactions.add({
 //        timestamp: message.ts,
 //        channel: message.channel,
-//        name: 'robot_face',
+//        name: 'lemon',
 //    }, function (err) {
 //        if (err) {
 //            console.log(err)
 //        }
-//        bot.reply(message, 'I heard you loud and clear boss.');
+//        bot.reply(message, 'Who\'s coming to lunch today?');
 //    });
-//});
+// });
+
+// Business Logic
+controller.hears(
+    ['hello', 'hi', 'greetings'],
+    ['direct_mention', 'mention', 'direct_message'],
+    function (bot, message) {
+        bot.reply(message, 'Hello!');
+    }
+);
+
+controller.hears(
+    ['people'],
+    ['direct_mention', 'direct_message'],
+    function (bot, message) {
+        bot.reply(message, 'Who\'s coming to lunch today?');
+    }
+);
+
+var categories = ['salad', 'bowl', 'asian', 'mediterranean']
+controller.hears(
+    ['categories'],
+    ['direct_mention', 'direct_message'],
+    function (bot, message) {
+       categories.forEach((category) => {
+           bot.reply(message, category);
+       })
+    }
+);
+
+controller.hears(
+    ['orders'],
+    ['direct_mention', 'direct_message'],
+    function (bot, message) {
+       bot.reply(message, "Please place your orders here: https://bit.ly/LevvelNYCLunch");
+    }
+);
+
+controller.hears(
+    ['placed'],
+    ['direct_mention', 'direct_message'],
+    function (bot, message) {
+       bot.reply(message, 'The order has been placed. It should arrive around 12:00-12:10 pm.');
+    }
+);
+
+controller.hears(
+    ['feedback'],
+    ['direct_mention', 'direct_message'],
+    function (bot, message) {
+       bot.reply(message, 'Remember to write your feeback for today\'s lunch https://bit.ly/LevvelNYCLunchFeedback. It really helps me to improve my recommendations. Thanks!');
+    }
+);
