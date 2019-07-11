@@ -30,3 +30,5 @@ node_modules
 
 # Temp files
 db_slack_bot_a
+db_slack_bot_ci
+script.sh

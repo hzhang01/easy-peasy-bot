@@ -2,7 +2,6 @@
  * A Bot for Slack!
  */
 
-
 /**
  * Define a function for initiating a conversation on installation
  * With custom integrations, we don't have a way to find out who installed us, so we can't message them :(
@@ -75,37 +74,27 @@ controller.on('rtm_close', function (bot) {
     // you may want to attempt to re-open
 });
 
+/*=================================================================================================/
 
 /**
- * Core bot logic goes here!
+ * Core bot business logic
  */
-// BEGIN EDITING HERE!
+
+// Variables
+reserved_words = [
+    'people', 'order', 'orders', 'category', 'categories', 'placed', 
+    'feedback', 'help', 'list', 'hi', 'hello', 'greetings'
+]
+
+// Controllers 
 
 controller.on('bot_channel_join', function (bot, message) {
-    bot.reply(message, "I'm here!")
+    bot.reply(message, "Hi everyone! I am the lunch assistant bot. It's my pleasure to serve y'all!")
 });
 
-/**
- * AN example of what could be:
- * Any un-handled direct mention gets a reaction and a pat response!
- */
-// controller.on('mention', function (bot, message) {
-//    bot.api.reactions.add({
-//        timestamp: message.ts,
-//        channel: message.channel,
-//        name: 'lemon',
-//    }, function (err) {
-//        if (err) {
-//            console.log(err)
-//        }
-//        bot.reply(message, 'Who\'s coming to lunch today?');
-//    });
-// });
-
-// Business Logic
 controller.hears(
     ['hello', 'hi', 'greetings'],
-    ['direct_mention', 'mention', 'direct_message'],
+    ['direct_mention', 'direct_message'],
     function (bot, message) {
         bot.reply(message, 'Hello!');
     }
@@ -119,19 +108,22 @@ controller.hears(
     }
 );
 
-var categories = ['salad', 'bowl', 'asian', 'mediterranean']
+var categories = ['Salad', 'Bowl', 'Asian', 'Mediterranean'];
+var categories_emojis = ['salad', 'poke-bowl', 'takeout_box', 'stuffed_flatbread'];
 controller.hears(
-    ['categories'],
+    ['categories, category'],
     ['direct_mention', 'direct_message'],
     function (bot, message) {
-       categories.forEach((category) => {
-           bot.reply(message, category);
-       })
+        bot.reply(message, 'Please vote for your preferred food categoriesc:');
+       categories.forEach((category, idx) => {
+           bot.reply(message, `:${categories_emojis[idx]}: ${category}`);
+        });
+        
     }
 );
 
 controller.hears(
-    ['orders'],
+    ['orders', 'order'],
     ['direct_mention', 'direct_message'],
     function (bot, message) {
        bot.reply(message, "Please place your orders here: https://bit.ly/LevvelNYCLunch");
@@ -151,5 +143,13 @@ controller.hears(
     ['direct_mention', 'direct_message'],
     function (bot, message) {
        bot.reply(message, 'Remember to write your feeback for today\'s lunch https://bit.ly/LevvelNYCLunchFeedback. It really helps me to improve my recommendations. Thanks!');
+    }
+);
+
+controller.hears(
+    ['help', 'list'],
+    ['direct_mention', 'direct_message'],
+    function (bot, message) {
+       bot.reply(message, 'Need some help? You can @ me and use the follow commands:\n`people`, `categories`, `order`, `placed`, `feedback`, `help`.');
     }
 );
