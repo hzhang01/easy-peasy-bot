@@ -1,6 +1,6 @@
 {
   "name": "lunch-bot",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "This bot helps us to pick lunch options and provides useful links.",
   "main": "index.js",
   "scripts": {

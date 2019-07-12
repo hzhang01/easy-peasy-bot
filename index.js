@@ -111,10 +111,10 @@ controller.hears(
 var categories = ['Salad', 'Bowl', 'Asian', 'Mediterranean'];
 var categories_emojis = ['salad', 'poke-bowl', 'takeout_box', 'stuffed_flatbread'];
 controller.hears(
-    ['categories, category'],
+    ['categories', 'category'],
     ['direct_mention', 'direct_message'],
     function (bot, message) {
-        bot.reply(message, 'Please vote for your preferred food categoriesc:');
+        bot.reply(message, 'Please vote for your preferred food categories:');
        categories.forEach((category, idx) => {
            bot.reply(message, `:${categories_emojis[idx]}: ${category}`);
         });
